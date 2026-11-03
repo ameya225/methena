@@ -13,3 +13,4 @@
 ^demo_results$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^publish_to_github\.sh$
