@@ -1,0 +1,26 @@
+# Post-mortem brain (striatum), schizophrenia vs control (Pidsley/Viana et al. 2017)
+project: GSE89706_striatum
+output_dir: ../results/GSE89706_striatum
+input:
+  type: intensity
+  array: 450k
+  tissue: brain
+  sample_sheet: ../example_data/sample_sheets/GSE89706_linked.tsv
+  sample_id_col: geo_accession
+  data_id_col: data_id
+  meth_file: ../example_data/raw/GSE89706_methylatedintensities_STR_LNDBB.csv.gz
+  unmeth_file: ../example_data/raw/GSE89706_unmethylatedintensities_STR_LNDBB.csv.gz
+  detp_file: ../example_data/raw/GSE89706_detectionP_STR_LNDBB.csv.gz
+phenotype:
+  group_col: diagnosis
+  control_level: control
+  case_level: schizophrenia
+  age_col: age
+  sex_col: gender
+normalization:
+  method: dasen
+analysis:
+  covariates: [age, sex, cells]
+  clocks: true
+  enrichment: false
+  vmp: true

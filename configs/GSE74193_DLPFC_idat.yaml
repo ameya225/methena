@@ -1,0 +1,25 @@
+# Adult DLPFC subset (30 schizophrenia / 30 control) of GSE74193 (Jaffe et al. 2016) -- tests the IDAT input path
+project: GSE74193_DLPFC_IDAT_subset
+output_dir: ../results/GSE74193_DLPFC_idat
+input:
+  type: idat
+  array: auto
+  tissue: brain
+  sample_sheet: ../example_data/sample_sheets/GSE74193_subset.tsv
+  sample_id_col: geo_accession
+  idat_dir: ../example_data/idat/GSE74193
+phenotype:
+  group_col: group
+  control_level: Control
+  case_level: Schizo
+  age_col: age
+  sex_col: sex
+normalization:
+  method: noob
+analysis:
+  gene_set_files: {Reactome: ../example_data/genesets/ReactomePathways.gmt}
+  covariates: [age, sex, cells]
+  batch_cols: [race]
+  enrichment: true
+  compare_with:
+    - {label: "UCL blood GSE84727", path: ../results/GSE84727_blood/analysis/dmp_results.tsv.gz}

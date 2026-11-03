@@ -1,0 +1,24 @@
+# Whole-blood RRBS (Bismark coverage files, GRCh38): neuropathic chronic pain vs control, 12 + 12 subset
+# Tests the bisulfite-sequencing input path on real data.
+project: GSE166255_RRBS_blood_subset
+output_dir: ../results/GSE166255_rrbs
+input:
+  type: bismark
+  genome: hg38
+  tissue: blood
+  sample_sheet: ../example_data/sample_sheets/GSE166255_subset.tsv
+  sample_id_col: geo_accession
+  bismark_dir: ../example_data/rrbs/GSE166255
+  bismark_file_col: cov_file
+phenotype:
+  group_col: condition
+  control_level: control
+  case_level: neuropathic chronic pain
+qc:
+  bs_min_coverage: 10
+  bs_min_sample_frac: 0.8
+analysis:
+  covariates: []
+  clocks: false
+  enrichment: true
+  vmp: true

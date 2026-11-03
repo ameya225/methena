@@ -1,0 +1,26 @@
+# Post-mortem brain (hippocampus), schizophrenia vs control (Pidsley/Viana et al. 2017)
+project: GSE89703_hippocampus
+output_dir: ../results/GSE89703_hippocampus
+input:
+  type: intensity
+  array: 450k
+  tissue: brain
+  sample_sheet: ../example_data/sample_sheets/GSE89703_linked.tsv
+  sample_id_col: geo_accession
+  data_id_col: data_id
+  meth_file: ../example_data/raw/GSE89703_methylatedintensities_HC_LNDBB.csv.gz
+  unmeth_file: ../example_data/raw/GSE89703_unmethylatedintensities_HC_LNDBB.csv.gz
+  detp_file: ../example_data/raw/GSE89703_detectionP_HC_LNDBB.csv.gz
+phenotype:
+  group_col: diagnosis
+  control_level: control
+  case_level: schizophrenia
+  age_col: age
+  sex_col: gender
+normalization:
+  method: dasen
+analysis:
+  covariates: [age, sex, cells]
+  clocks: true
+  enrichment: false
+  vmp: true

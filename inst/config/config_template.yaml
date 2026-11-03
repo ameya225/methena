@@ -1,0 +1,106 @@
+# ============================================================================
+# methylflow configuration template -- copy this file, edit the values marked
+# EDIT, and run:   ./run_methylflow.sh all my_config.yaml
+# Relative paths are resolved from the folder that contains this file.
+# ============================================================================
+project: my_methylation_study          # EDIT: short name used in reports
+output_dir: results/my_study           # EDIT: where all outputs are written
+seed: 20240913                         # random seed (keeps runs reproducible)
+threads: 1                             # CPU cores for the epigenetic-clock step (e.g. 4)
+
+input:
+  # EDIT: one of
+  #   idat       - Illumina IDAT files (best: full QC incl. bead counts, Noob/Funnorm)
+  #   intensity  - methylated + unmethylated signal matrices (+ detection p-values), e.g. from GEO
+  #   beta       - a matrix of beta values (already normalised)
+  #   bismark    - bisulfite sequencing coverage files (*.cov / *.cov.gz from Bismark)
+  type: intensity
+  array: auto                          # auto | 450k | epic | epicv2 (arrays only)
+  genome: hg19                         # hg19 | hg38 (bisulfite sequencing only)
+  tissue: blood                        # blood | brain | other (chooses the cell-type reference)
+  # Sample information: a CSV/TSV sample sheet and/or a GEO series-matrix file
+  sample_sheet: null                   # e.g. samples.csv
+  geo_series_matrix: null              # e.g. GSE84727_series_matrix.txt.gz
+  sample_id_col: null                  # column with unique sample IDs (default geo_accession / first column)
+  data_id_col: null                    # column whose values match the data column names / IDAT names (auto-detected if null)
+  # Files for each input type (only those for your type are needed)
+  idat_dir: null                       # folder with *_Grn.idat / *_Red.idat (searched recursively)
+  basename_col: null                   # optional sample-sheet column with IDAT basenames (e.g. 200123456789_R01C01)
+  meth_file: null                      # methylated intensities (CpGs in rows, samples in columns)
+  unmeth_file: null                    # unmethylated intensities
+  detp_file: null                      # detection p-values (strongly recommended)
+  beta_file: null                      # beta matrix (type: beta)
+  bismark_dir: null                    # folder with Bismark coverage files
+  bismark_pattern: "\\.cov(\\.gz)?$"
+  bismark_file_col: null               # optional sample-sheet column with coverage file names
+
+phenotype:
+  group_col: disease_status            # EDIT: column with case/control labels
+  control_level: control               # EDIT: value meaning control
+  case_level: case                     # EDIT: value meaning case
+  age_col: age                         # column with chronological age in years (needed for clocks)
+  sex_col: sex                         # column with sex (M/F, male/female)
+  batch_cols: null                     # e.g. [plate, slide]; modelled as factors
+  extra_covariates: null               # other sample-sheet columns to adjust for
+  recode: null                         # e.g. {disease_status: {"1": control, "2": case}}
+  keep_samples_query: null             # R expression to subset samples, e.g. 'age >= 18'
+
+qc:
+  detp_threshold: 0.01                 # a measurement fails if detection p > this
+  sample_max_failed_frac: 0.05         # drop samples with > 5% failed probes
+  probe_max_failed_frac: 0.05          # drop probes failing in > 5% of samples
+  min_beadcount: 3                     # IDAT only
+  sex_check: true
+  drop_sex_mismatch: true              # drop samples whose predicted sex differs from the recorded sex
+  outlier_sd: 4                        # PCA / profile outlier threshold (robust SDs)
+  drop_outliers: true
+  max_outlier_frac: 0.1                # if more samples than this are outliers they are only flagged, not removed
+  force_drop_outliers: false
+  remove_snp_probes: true              # probes with SNPs (MAF >= snp_maf) at the CpG / single-base extension
+  snp_maf: 0.05
+  remove_cross_reactive: true          # probes that map to multiple genomic locations
+  remove_xy: true                      # sex-chromosome CpGs
+  bs_min_coverage: 10                  # bisulfite-seq: minimum reads per CpG per sample
+  bs_min_sample_frac: 0.8              # keep CpGs covered in >= 80% of samples
+  bs_max_coverage_quantile: 0.999      # discard extreme-coverage (PCR artefact) sites
+  bs_min_cpgs_per_sample: 1000
+  bs_collapse_strands: true
+
+normalization:
+  method: auto                         # auto | noob | noob_bmiq | funnorm | quantile | swan | dasen | bmiq | none
+
+covariates:
+  cell_type: auto                      # auto (uses input$tissue) | blood | brain | none
+  smoking_score: true
+  predict_sex: true
+  dnam_age: true                       # DNAm-predicted age (blood: Zhang 2019; brain: Shireby 2020) for use as a covariate
+
+analysis:
+  # keywords: age | dnam_age (methylation-predicted) | age_or_dnam (reported, else predicted) | sex | cells | smoking,
+  # or any sample-sheet column. Samples missing a used covariate are dropped.
+  covariates: [age, sex, cells, smoking]
+  batch_cols: null
+  n_pcs: 0                             # add N residual principal components (controls hidden confounding)
+  inflation_correction: bacon          # bacon (empirical-null correction of test-statistic inflation) | none
+  fdr: 0.05
+  min_delta_beta: 0
+  dmr: true
+  dmr_lambda: 1000
+  dmr_C: 2
+  dmr_min_cpgs: 3
+  vmp: true                            # differential variability
+  clocks: true
+  # any of mf_available_clocks()$clock; all run offline (dnaMethyAge coefficients)
+  clock_set: [HorvathS2013, HannumG2013, LevineM2018, HorvathS2018, ZhangQ2019, ShirebyG2020,
+              McEwenL2019, PCHorvathS2013, PCHannumG2013, PCHorvathS2018, PCPhenoAge, PCGrimAge,
+              DunedinPACE, LuA2019, YangZ2016, epiTOC2, ZhangY2017]
+  enrichment: true
+  enrichment_top_n: 1000
+  msigdb_collections: ["H"]            # MSigDB via msigdbr (downloads on first use; needs internet)
+  gene_set_files: null                 # extra GMT files, e.g. {Reactome: genesets/ReactomePathways.gmt}
+  motif: false                         # TF motif enrichment (slower; needs BSgenome + JASPAR2024)
+  motif_top_n: 1000
+  motif_flank: 100
+  expression_results: null             # optional TSV with columns gene, logFC to integrate expression
+  compare_with: null                   # e.g. [{label: brain_PFC, path: ../brain/analysis/dmp_results.tsv.gz}]
+  report: true

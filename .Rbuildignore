@@ -1,0 +1,15 @@
+^\.github$
+^\.git$
+^configs$
+^example_data$
+^docs$
+^run_methylflow\.sh$
+^README\.md$
+^CITATION\.cff$
+^LICENSE\.md$
+^CONTRIBUTING\.md$
+^Rlib$
+^results$
+^demo_results$
+^.*\.Rproj$
+^\.Rproj\.user$

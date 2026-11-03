@@ -1,0 +1,16 @@
+# R package library installed by ./run_methylflow.sh setup
+Rlib/
+# pipeline outputs and downloaded data (re-creatable; often large or controlled-access)
+results/
+demo_results/
+example_data/raw/
+example_data/idat/
+example_data/rrbs/
+example_data/genesets/*.zip
+# R / OS clutter
+.Rhistory
+.RData
+.Rproj.user/
+*.Rcheck/
+methylflow_*.tar.gz
+.DS_Store

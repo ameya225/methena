@@ -1,0 +1,33 @@
+# UCL schizophrenia blood cohort (Hannon et al. 2016; used in Kiltschewskij et al. 2024, Mol Psychiatry)
+project: GSE84727_UCL_blood_SCZ
+output_dir: ../results/GSE84727_blood
+threads: 6
+input:
+  type: intensity
+  array: 450k
+  tissue: blood
+  geo_series_matrix: ../example_data/raw/GSE84727_series_matrix.txt.gz
+  data_id_col: sentrixids
+  meth_file: ../example_data/raw/GSE84727_methylatedIntensities.csv.gz
+  unmeth_file: ../example_data/raw/GSE84727_unmethylatedIntensities.csv.gz
+  detp_file: ../example_data/raw/GSE84727_detectionP.csv.gz
+phenotype:
+  group_col: disease_status
+  recode: {disease_status: {"1": control, "2": schizophrenia}}
+  control_level: control
+  case_level: schizophrenia
+  age_col: age
+  sex_col: sex
+normalization:
+  method: dasen
+analysis:
+  gene_set_files: {Reactome: ../example_data/genesets/ReactomePathways.gmt}
+  # 176 samples (150 cases) lack reported age; as in Kiltschewskij et al. we adjust for methylation-derived age
+  covariates: [dnam_age, sex, cells, smoking]
+  batch_cols: [slide, array_row]
+  motif: true
+  compare_with:
+    - {label: "brain cerebellum (GSE89702)", path: ../results/GSE89702_cerebellum/analysis/dmp_results.tsv.gz}
+    - {label: "brain hippocampus (GSE89703)", path: ../results/GSE89703_hippocampus/analysis/dmp_results.tsv.gz}
+    - {label: "brain striatum DBCBB (GSE89705)", path: ../results/GSE89705_striatum/analysis/dmp_results.tsv.gz}
+    - {label: "brain striatum LNDBB (GSE89706)", path: ../results/GSE89706_striatum/analysis/dmp_results.tsv.gz}

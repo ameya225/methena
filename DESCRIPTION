@@ -1,0 +1,28 @@
+Package: methylflow
+Type: Package
+Title: Reproducible DNA Methylation Pipeline from Raw Data to Biological Interpretation
+Version: 1.0.0
+Authors@R: person("methylflow", "authors", role = c("aut", "cre"), email = "methylflow@example.org")
+Description: Ingests Illumina methylation array data (IDAT files, methylated/unmethylated
+    intensity matrices with detection p-values, or beta matrices; 450K, EPIC, EPICv2) or
+    bisulfite sequencing data (Bismark coverage files), runs sample and probe quality control,
+    normalisation and covariate estimation (cell composition, sex, smoking), and produces a
+    standardised dataset. Downstream functions test differential methylation (positions,
+    regions, variance), benchmark epigenetic clocks, map results to genes, pathways and
+    regulatory elements, write an HTML report and serve results in a Shiny app.
+License: MIT + file LICENSE
+URL: https://github.com/OWNER/methylflow
+BugReports: https://github.com/OWNER/methylflow/issues
+Encoding: UTF-8
+Depends: R (>= 4.3)
+Imports: data.table, yaml, jsonlite, digest, matrixStats, limma, SummarizedExperiment,
+    S4Vectors, GenomicRanges, IRanges, ggplot2, ggrepel, htmltools, stats, utils,
+    methods
+Suggests: dnaMethyAge, bacon, preprocessCore, JASPAR2020, patchwork, minfi, wateRmelon, DMRcate, missMethyl, EpiDISH, HiBED, bsseq, DSS, methylKit, GEOquery, msigdbr, monaLisa, JASPAR2024, TFBSTools,
+    BSgenome.Hsapiens.UCSC.hg19, TxDb.Hsapiens.UCSC.hg19.knownGene, org.Hs.eg.db,
+    IlluminaHumanMethylation450kanno.ilmn12.hg19, IlluminaHumanMethylation450kmanifest,
+    IlluminaHumanMethylationEPICanno.ilm10b4.hg19, IlluminaHumanMethylationEPICmanifest,
+    IlluminaHumanMethylationEPICv2anno.20a1.hg38, IlluminaHumanMethylationEPICv2manifest,
+    shiny, DT, plotly, bslib, lmtest, optparse, testthat (>= 3.0.0), R.utils, withr, scales, AnnotationDbi, GenomicFeatures, GenomeInfoDb, Biostrings, BiocParallel, RSQLite
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.1
