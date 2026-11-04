@@ -11,8 +11,8 @@ Description: Ingests Illumina methylation array data (IDAT files, methylated/unm
     regions, variance), benchmark epigenetic clocks, map results to genes, pathways and
     regulatory elements, write an HTML report and serve results in a Shiny app.
 License: MIT + file LICENSE
-URL: https://github.com/OWNER/methylflow
-BugReports: https://github.com/OWNER/methylflow/issues
+URL: https://github.com/ameya225/methylflow
+BugReports: https://github.com/ameya225/methylflow/issues
 Encoding: UTF-8
 Depends: R (>= 4.3)
 Imports: data.table, yaml, jsonlite, digest, matrixStats, limma, SummarizedExperiment,

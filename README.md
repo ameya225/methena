@@ -1,6 +1,6 @@
 # methylflow: a reproducible DNA-methylation pipeline
 
-[![R-CMD-check](https://github.com/OWNER/methylflow/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/OWNER/methylflow/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/ameya225/methylflow/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ameya225/methylflow/actions/workflows/R-CMD-check.yaml)
 
 methylflow takes raw DNA-methylation data and turns it into a report that says
 **where and how cases differ from controls**, which genes and pathways are involved,
@@ -42,7 +42,7 @@ It supports:
 **Option A: download the whole pipeline (recommended for most users).** Open the **Terminal** app and run:
 
 ```bash
-git clone https://github.com/OWNER/methylflow.git      # or: Code -> Download ZIP on GitHub, then unzip
+git clone https://github.com/ameya225/methylflow.git      # or: Code -> Download ZIP on GitHub, then unzip
 cd methylflow
 ./run_methylflow.sh setup        # installs ~350 R packages into ./Rlib (30-60 min, only once)
 ./run_methylflow.sh demo         # 2-minute end-to-end check on simulated data
@@ -57,8 +57,8 @@ you use for other work is not modified.
 
 ```r
 install.packages(c("remotes", "BiocManager"))
-source("https://raw.githubusercontent.com/OWNER/methylflow/main/inst/scripts/install_dependencies.R")
-remotes::install_github("OWNER/methylflow")
+source("https://raw.githubusercontent.com/ameya225/methylflow/main/inst/scripts/install_dependencies.R")
+remotes::install_github("ameya225/methylflow")
 library(methylflow)
 ```
 
