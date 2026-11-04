@@ -26,3 +26,4 @@ Suggests: dnaMethyAge, bacon, preprocessCore, JASPAR2020, patchwork, minfi, wate
     shiny, DT, plotly, bslib, lmtest, optparse, testthat (>= 3.0.0), R.utils, withr, scales, AnnotationDbi, GenomicFeatures, GenomeInfoDb, Biostrings, BiocParallel, RSQLite
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.1
+Remotes: yiluyucheng/dnaMethyAge

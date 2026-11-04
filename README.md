@@ -266,7 +266,7 @@ methylflow/
 ├── configs/                ready-to-run configs for the example GEO datasets
 ├── example_data/           download script, sample sheets and URL lists (raw data not included)
 ├── docs/                   INSIGHTS.md (example-study findings) and validation/ (test and check logs)
-└── .github/workflows/      continuous integration: R CMD check on Linux and macOS for every push
+└── .github/workflows/      continuous integration: R CMD check (Bioconductor container) on every push
 ```
 
 The package can also be used from R directly:
