@@ -1,11 +1,11 @@
-# Shiny UI/server for methylflow results. `build_app(bundle)` returns a shiny.appobj.
+# Shiny UI/server for methena results. `build_app(bundle)` returns a shiny.appobj.
 build_app <- function(bundle) {
   library(shiny)
   dmp <- bundle$dmp; fdr <- bundle$fdr %||% 0.05
   `%||%` <- function(a, b) if (is.null(a)) b else a
   chrs <- unique(dmp$chr[order(suppressWarnings(as.integer(sub("chr", "", sub("X", "23", sub("Y", "24", dmp$chr))))))])
   ui <- fluidPage(
-    titlePanel(paste("methylflow results:", bundle$project)),
+    titlePanel(paste("methena results:", bundle$project)),
     sidebarLayout(
       sidebarPanel(width = 3,
         sliderInput("fdr", "FDR threshold", min = 0.001, max = 0.25, value = fdr, step = 0.001),

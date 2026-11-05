@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# Installs every dependency of methylflow. Safe to re-run (skips what is installed).
+# Installs every dependency of methena. Safe to re-run (skips what is installed).
 # Usage: Rscript install_dependencies.R [--lib /path/to/library] [--minimal]
 args <- commandArgs(TRUE)
 lib <- if ("--lib" %in% args) args[which(args == "--lib") + 1] else NULL
@@ -38,4 +38,4 @@ if (length(broken)) {
 still <- Filter(function(p) !loads(p), c(want, names(github)))
 if (length(still)) { msg <- paste0("FAILED to install: ", paste(still, collapse = ", "))
   if (interactive()) stop(msg) else { message(msg); quit(status = 1) } }
-message("All methylflow dependencies are installed.")
+message("All methena dependencies are installed.")

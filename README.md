@@ -1,8 +1,11 @@
-# methylflow: a reproducible DNA-methylation pipeline
+# methena: a reproducible DNA-methylation pipeline
 
-[![R-CMD-check](https://github.com/ameya225/methylflow/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ameya225/methylflow/actions/workflows/R-CMD-check.yaml)
+*METHylation, from raw data to biological meaning, ENd to end, Analysed.*  
+(Formerly **methylflow**; the old GitHub address redirects here.)
 
-methylflow takes raw DNA-methylation data and turns it into a report that says
+[![R-CMD-check](https://github.com/ameya225/methena/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ameya225/methena/actions/workflows/R-CMD-check.yaml)
+
+methena takes raw DNA-methylation data and turns it into a report that says
 **where and how cases differ from controls**, which genes and pathways are involved,
 how this could change gene transcription, and whether cases look biologically older.
 You run it with one command, and the same input with the same settings gives the
@@ -12,7 +15,7 @@ same result tables every time.
  raw data ──► 1. PREPROCESS ─────────────────────► 2. ANALYZE ─────────────────────────► 3. EXPLORE
  (IDAT, intensity    QC, filtering, normalisation,     differential methylation (CpGs,     HTML report +
   matrices, betas,   cell-type / sex / smoking         regions, variability), 17 epigenetic interactive
-  or Bismark files)  estimates  ► methylflow_dataset   clocks, genes, pathways, TF motifs   Shiny app
+  or Bismark files)  estimates  ► methena_dataset   clocks, genes, pathways, TF motifs   Shiny app
 ```
 
 It supports:
@@ -42,10 +45,10 @@ It supports:
 **Option A: download the whole pipeline (recommended for most users).** Open the **Terminal** app and run:
 
 ```bash
-git clone https://github.com/ameya225/methylflow.git      # or: Code -> Download ZIP on GitHub, then unzip
-cd methylflow
-./run_methylflow.sh setup        # installs ~350 R packages into ./Rlib (30-60 min, only once)
-./run_methylflow.sh demo         # 2-minute end-to-end check on simulated data
+git clone https://github.com/ameya225/methena.git      # or: Code -> Download ZIP on GitHub, then unzip
+cd methena
+./run_methena.sh setup        # installs ~350 R packages into ./Rlib (30-60 min, only once)
+./run_methena.sh demo         # 2-minute end-to-end check on simulated data
 ```
 
 The demo should finish with `DEMO OK: recovered 9x% of the 200 planted differences`
@@ -57,12 +60,12 @@ you use for other work is not modified.
 
 ```r
 install.packages(c("remotes", "BiocManager"))
-source("https://raw.githubusercontent.com/ameya225/methylflow/main/inst/scripts/install_dependencies.R")
-remotes::install_github("ameya225/methylflow")
-library(methylflow)
+source("https://raw.githubusercontent.com/ameya225/methena/main/inst/scripts/install_dependencies.R")
+remotes::install_github("ameya225/methena")
+library(methena)
 ```
 
-The command-line script is then at `system.file("scripts", "methylflow.R", package = "methylflow")`.
+The command-line script is then at `system.file("scripts", "methena.R", package = "methena")`.
 
 ## 3. Prepare your data
 
@@ -77,14 +80,14 @@ The command-line script is then at `system.file("scripts", "methylflow.R", packa
    * `group` must have exactly two values (for example case/control).
    * `age` (years) is needed for the epigenetic-clock comparison; `sex` (M/F) is used for
      adjustment and for the automatic sex check.
-   * The data id column tells methylflow which column of the data file, IDAT file
+   * The data id column tells methena which column of the data file, IDAT file
      name or coverage file belongs to the sample. It is detected automatically when
      possible. IDATs named like `GSM123_2001234_R01C01_Grn.idat.gz` are matched
      to the sample id automatically.
    * Data from GEO: instead of a sample sheet you can point `input.geo_series_matrix` to the
      `GSExxxx_series_matrix.txt.gz` file; every "characteristics" field becomes a column.
      To see these columns as a table, run
-     `Rscript inst/scripts/methylflow.R geo-sheet --series GSE..._series_matrix.txt.gz --out samples.tsv`.
+     `Rscript inst/scripts/methena.R geo-sheet --series GSE..._series_matrix.txt.gz --out samples.tsv`.
 
 ## 4. Write a configuration file
 
@@ -100,7 +103,7 @@ Every option is explained in the template. Paths are relative to the YAML file. 
 Check the configuration before a long run:
 
 ```bash
-./run_methylflow.sh check my_study.yaml
+./run_methena.sh check my_study.yaml
 ```
 
 This reads the sample sheet, applies your group/age/sex settings and prints how many
@@ -109,10 +112,10 @@ samples are in each group, without processing any data.
 ## 5. Run
 
 ```bash
-./run_methylflow.sh all my_study.yaml          # = preprocess + analyze
+./run_methena.sh all my_study.yaml          # = preprocess + analyze
 # or step by step
-./run_methylflow.sh preprocess my_study.yaml
-./run_methylflow.sh analyze    my_study.yaml   # re-run with new settings without re-doing QC
+./run_methena.sh preprocess my_study.yaml
+./run_methena.sh analyze    my_study.yaml   # re-run with new settings without re-doing QC
 ```
 
 Measured run times on an 8-core laptop with 32 GB RAM:
@@ -135,7 +138,7 @@ A log file is written next to the results.
 │   ├── sample_qc.tsv                  per-sample metrics and exclusion reasons
 │   ├── probe_filter_summary.tsv       how many CpGs each filter removed
 │   ├── sample_annotation_final.tsv    phenotype + estimated cell types, smoking score, PCs
-│   ├── methylflow_dataset.rds         standardised data object (input to the analysis step)
+│   ├── methena_dataset.rds         standardised data object (input to the analysis step)
 │   └── run_manifest.json              inputs/outputs with SHA-256 checksums, settings, package versions
 └── analysis/
     ├── analysis_report.html           ◄ the main report, starting with "Key findings"
@@ -158,7 +161,7 @@ A log file is written next to the results.
 ### Interactive browser (Shiny)
 
 ```bash
-./run_methylflow.sh shiny <output_dir>/analysis
+./run_methena.sh shiny <output_dir>/analysis
 ```
 
 A browser tab opens with tabs for a volcano plot (click a point to see that CpG), a
@@ -178,7 +181,7 @@ with `Ctrl+C` in the Terminal.
 | **DMR** | Differentially methylated region: several neighbouring CpGs changing together. These results are usually more robust than single CpGs. |
 | **VMP** | Variably methylated position: methylation is more (or less) *variable* in cases. This can indicate heterogeneity among patients. |
 | **FDR** | False discovery rate. At FDR < 0.05, about 5 % of reported hits are expected to be false. |
-| **λ (lambda) / bacon** | Inflation of test statistics. λ ≈ 1 is ideal. λ > 1.2 indicates broad confounding (cell types, smoking, medication, batch) or a very polygenic signal. methylflow uses *bacon* by default to correct P-values for this, and reports both corrected and uncorrected counts. |
+| **λ (lambda) / bacon** | Inflation of test statistics. λ ≈ 1 is ideal. λ > 1.2 indicates broad confounding (cell types, smoking, medication, batch) or a very polygenic signal. methena uses *bacon* by default to correct P-values for this, and reports both corrected and uncorrected counts. |
 | **Promoter hypermethylation** | Usually silences the gene → "likely reduced transcription". Gene-body methylation is often *positively* linked to expression, so it is reported separately. |
 | **Epigenetic age acceleration** | Clock age minus the age expected for the person's chronological age. Positive values mean the methylome looks older than expected. DunedinPACE is the *pace* of ageing (1.0 = one biological year per calendar year). |
 
@@ -206,7 +209,7 @@ cd example_data
    GSE84727:GSE84727_methylatedIntensities.csv.gz GSE84727:GSE84727_unmethylatedIntensities.csv.gz
 # brain sets: see example_data/README_data.md for the full list of files
 cd ..
-./run_methylflow.sh all configs/GSE84727_blood.yaml
+./run_methena.sh all configs/GSE84727_blood.yaml
 ```
 
 The brain intensity files are labelled with array IDs, while GEO metadata uses GSM accessions.
@@ -217,7 +220,7 @@ matched unambiguously (r = 1.00 against a runner-up of about 0.2-0.4).
 ## 9. Making sure it works (tests)
 
 ```bash
-./run_methylflow.sh test
+./run_methena.sh test
 ```
 
 The automated tests check that:
@@ -236,9 +239,9 @@ The automated tests check that:
 
 | Message | What to do |
 |---|---|
-| `Package 'X' is required ... run install_dependencies.R` | Run `./run_methylflow.sh setup` again; it only installs what is missing. |
+| `Package 'X' is required ... run install_dependencies.R` | Run `./run_methena.sh setup` again; it only installs what is missing. |
 | `Could not match any data columns to sample sheet rows` | Set `input.data_id_col` to the sample-sheet column that holds the names used in the data file (the message lists examples). |
-| `group_col '...' not in sample sheet` | Check spelling; `./run_methylflow.sh check` prints all column names. |
+| `group_col '...' not in sample sheet` | Check spelling; `./run_methena.sh check` prints all column names. |
 | `Case-control analysis needs exactly 2 groups` | Set `phenotype.control_level`/`case_level`, or use `recode` to merge labels, or `keep_samples_query` to subset. |
 | `vector memory limit ... reached` | Use a machine with more RAM, or analyse a subset (`keep_samples_query`). |
 | Many samples excluded | Open `preprocess/qc_report.html`; thresholds are in the `qc:` section. |
@@ -247,17 +250,17 @@ The automated tests check that:
 | `JASPAR2024 database not reachable` | Harmless: the motif step uses the bundled JASPAR2020 motifs instead. |
 | `... outliers - too many to remove automatically` | The samples are kept and flagged. Look at them in the QC report; set `qc.force_drop_outliers: true` if they really are failed samples. |
 | `strands not collapsed` (sequencing) | Install `BSgenome.Hsapiens.UCSC.hg38` (or hg19) to merge the two strands of each CpG. Results stay valid without it. |
-| Any other error | Re-run with `METHYLFLOW_DEBUG=1 ./run_methylflow.sh ...` to print the call stack. |
+| Any other error | Re-run with `METHENA_DEBUG=1 ./run_methena.sh ...` to print the call stack. |
 
 ## 11. What is in this repository
 
 ```
-methylflow/
+methena/
 ├── README.md               this file
-├── run_methylflow.sh       one-command wrapper (setup / demo / check / all / shiny / test)
+├── run_methena.sh       one-command wrapper (setup / demo / check / all / shiny / test)
 ├── DESCRIPTION, NAMESPACE  R package metadata (the repository root is an installable R package)
 ├── R/                      package code (io, qc, normalize, covariates, dm, clocks, enrichment, analyze, shiny ...)
-├── inst/scripts/           methylflow.R (command line), install_dependencies.R, link_geo_samples.R
+├── inst/scripts/           methena.R (command line), install_dependencies.R, link_geo_samples.R
 ├── inst/shiny/             Shiny app
 ├── inst/config/            config_template.yaml (every option documented)
 ├── inst/extdata/           bundled cross-reactive probe lists
@@ -272,7 +275,7 @@ methylflow/
 The package can also be used from R directly:
 
 ```r
-library(methylflow)
+library(methena)
 cfg <- mf_read_config("my_study.yaml")
 se  <- mf_preprocess(cfg)          # SummarizedExperiment: assay "beta", colData = phenotype + QC + covariates
 res <- mf_analyze(cfg)             # list with $dmp, $dmr, $vmp, $clocks, $enrich, $reg, $motif, $genes

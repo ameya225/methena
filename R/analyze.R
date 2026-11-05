@@ -192,17 +192,17 @@ insight_text <- function(r, cfg) {
   paste0("<ul>", paste0("<li>", b, "</li>", collapse = ""), "</ul>")
 }
 
-#' Run the downstream analysis on a methylflow dataset
+#' Run the downstream analysis on a methena dataset
 #'
 #' Writes to `<output_dir>/analysis/`: DMP/DMR/VMP tables, clock tables, enrichment,
 #' regulatory context, TF motifs, gene-level predictions, cross-dataset comparison, figures,
 #' analysis_report.html, results_bundle.rds (for the Shiny app) and run_manifest.json.
 #' @param cfg config
-#' @param dataset path to methylflow_dataset.rds (default: <output_dir>/preprocess/methylflow_dataset.rds)
+#' @param dataset path to methena_dataset.rds (default: <output_dir>/preprocess/methena_dataset.rds)
 #' @export
 mf_analyze <- function(cfg, dataset = NULL) {
   mf_reset(); set.seed(cfg$seed)
-  dataset <- dataset %||% file.path(cfg$output_dir, "preprocess", "methylflow_dataset.rds")
+  dataset <- dataset %||% file.path(cfg$output_dir, "preprocess", "methena_dataset.rds")
   od <- file.path(cfg$output_dir, "analysis"); fd <- file.path(od, "figures")
   dir.create(fd, recursive = TRUE, showWarnings = FALSE)
   mf_log_to(file.path(od, "analysis.log"))
@@ -293,5 +293,5 @@ analysis_report <- function(r, cfg, figs, path) {
     "<p>M-values (log2 ratio of methylated to unmethylated signal) were modelled with limma (robust empirical Bayes) using <code>", htmltools::htmlEscape(r$dmp$design$formula), "</code>; ",
     "adjusted &Delta;&beta; come from the same model fitted on beta values. P-values were corrected with Benjamini-Hochberg. DMRs: DMRcate kernel smoothing (lambda = ", a$dmr_lambda, ", C = ", a$dmr_C, "). ",
     "VMPs: missMethyl::varFit (Levene-type test on absolute deviations). Enrichment: missMethyl gometh/gsameth. Context: Fisher tests vs all tested CpGs. Motifs: monaLisa binned enrichment with JASPAR2024 CORE vertebrate PWMs (optional). Clocks: methylclock and DunedinPACE.</p>"))
-  mf_html_report(path, paste("methylflow analysis report:", cfg$project), secs)
+  mf_html_report(path, paste("methena analysis report:", cfg$project), secs)
 }

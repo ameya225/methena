@@ -1,4 +1,4 @@
-# R package library installed by ./run_methylflow.sh setup
+# R package library installed by ./run_methena.sh setup
 Rlib/
 # pipeline outputs and downloaded data (re-creatable; often large or controlled-access)
 results/
@@ -12,5 +12,5 @@ example_data/genesets/*.zip
 .RData
 .Rproj.user/
 *.Rcheck/
-methylflow_*.tar.gz
+methena_*.tar.gz
 .DS_Store

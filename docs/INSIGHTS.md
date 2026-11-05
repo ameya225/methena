@@ -1,7 +1,7 @@
 # What the pipeline found in the schizophrenia datasets
 
 This summary covers the public GEO data from Kiltschewskij, Reay & Cairns (2024, *Mol Psychiatry*,
-doi:10.1038/s41380-024-02749-5), analysed with methylflow 1.0.0. Every number below comes from
+doi:10.1038/s41380-024-02749-5), analysed with methena 1.0.0. Every number below comes from
 the result tables under `results/<dataset>/analysis/`. Per-dataset details are in each
 `analysis_report.html`.
 

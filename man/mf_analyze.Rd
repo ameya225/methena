@@ -2,14 +2,14 @@
 % Please edit documentation in R/analyze.R
 \name{mf_analyze}
 \alias{mf_analyze}
-\title{Run the downstream analysis on a methylflow dataset}
+\title{Run the downstream analysis on a methena dataset}
 \usage{
 mf_analyze(cfg, dataset = NULL)
 }
 \arguments{
 \item{cfg}{config}
 
-\item{dataset}{path to methylflow_dataset.rds (default: <output_dir>/preprocess/methylflow_dataset.rds)}
+\item{dataset}{path to methena_dataset.rds (default: <output_dir>/preprocess/methena_dataset.rds)}
 }
 \description{
 Writes to `<output_dir>/analysis/`: DMP/DMR/VMP tables, clock tables, enrichment,

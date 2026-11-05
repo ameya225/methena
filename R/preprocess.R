@@ -10,10 +10,10 @@ subset_raw <- function(raw, keep_ids) {
   raw
 }
 
-#' Published cross-reactive probe IDs bundled with methylflow (Chen 2013; McCartney 2016; Pidsley 2016)
+#' Published cross-reactive probe IDs bundled with methena (Chen 2013; McCartney 2016; Pidsley 2016)
 #' @export
 mf_cross_reactive_probes <- function() {
-  f <- system.file("extdata", "cross_reactive_probes.tsv.gz", package = "methylflow")
+  f <- system.file("extdata", "cross_reactive_probes.tsv.gz", package = "methena")
   data.table::fread(f, data.table = FALSE)$probe
 }
 
@@ -96,7 +96,7 @@ mf_annotate_positions <- function(chr, pos, genome = "hg19") {
 
 #' Run the complete preprocessing workflow and write the standardised dataset
 #'
-#' Writes to `<output_dir>/preprocess/`: methylflow_dataset.rds (SummarizedExperiment),
+#' Writes to `<output_dir>/preprocess/`: methena_dataset.rds (SummarizedExperiment),
 #' sample_qc.tsv, probe_filter_summary.tsv, qc_report.html, figures/, run_manifest.json, log.
 #' @param cfg config list (see [mf_read_config])
 #' @return the SummarizedExperiment (invisibly)
@@ -105,7 +105,7 @@ mf_preprocess <- function(cfg) {
   mf_reset(); set.seed(cfg$seed)
   od <- file.path(cfg$output_dir, "preprocess"); dir.create(file.path(od, "figures"), recursive = TRUE, showWarnings = FALSE)
   mf_log_to(file.path(od, "preprocess.log"))
-  mf_log("methylflow ", as.character(utils::packageVersion("methylflow")), " preprocessing: ", cfg$project)
+  mf_log("methena ", as.character(utils::packageVersion("methena")), " preprocessing: ", cfg$project)
   ss <- mf_step("read sample sheet", mf_read_samples(cfg))
   mf_log(nrow(ss), " samples in sample sheet")
   is_array <- cfg$input$type != "bismark"
@@ -229,20 +229,20 @@ mf_preprocess <- function(cfg) {
   assays <- list(beta = beta); if (!is.null(cov_assay)) assays$coverage <- cov_assay
   se <- SummarizedExperiment::SummarizedExperiment(assays = assays, colData = S4Vectors::DataFrame(cd, check.names = FALSE),
                                                    rowData = S4Vectors::DataFrame(ann[rownames(beta), , drop = FALSE]))
-  S4Vectors::metadata(se) <- list(methylflow_version = as.character(utils::packageVersion("methylflow")),
+  S4Vectors::metadata(se) <- list(methena_version = as.character(utils::packageVersion("methena")),
                                   input_type = cfg$input$type, platform = platform, genome = if (is_array) "hg19" else cfg$input$genome,
                                   tissue = cfg$input$tissue, probe_filters = filt, config = cfg,
                                   beta_filtered_probes = removed_beta, created = format(Sys.time()))
   if (is_array && platform == "epicv2") S4Vectors::metadata(se)$genome <- "hg38"
   # outputs
-  ds <- file.path(od, "methylflow_dataset.rds"); saveRDS(se, ds)
+  ds <- file.path(od, "methena_dataset.rds"); saveRDS(se, ds)
   mf_write_tsv(sq, file.path(od, "sample_qc.tsv"))
   fsum <- data.frame(step = names(filt), n = unlist(filt)); mf_write_tsv(fsum, file.path(od, "probe_filter_summary.tsv"))
   mf_write_tsv(data.frame(sample_id = colnames(beta), as.data.frame(cd)[, setdiff(names(cd), "sample_id"), drop = FALSE], check.names = FALSE),
                file.path(od, "sample_annotation_final.tsv"))
   figs <- mf_step("QC figures", qc_figures(beta, cd, sq, od, out$pca, grp_all = grp_all))
   qc_report(cfg, se, sq, fsum, figs, file.path(od, "qc_report.html"))
-  outs <- file.path(od, c("methylflow_dataset.rds", "sample_qc.tsv", "probe_filter_summary.tsv", "sample_annotation_final.tsv", "qc_report.html"))
+  outs <- file.path(od, c("methena_dataset.rds", "sample_qc.tsv", "probe_filter_summary.tsv", "sample_annotation_final.tsv", "qc_report.html"))
   ins <- unlist(cfg$input[c("sample_sheet", "geo_series_matrix", "meth_file", "unmeth_file", "detp_file", "beta_file")])
   mf_write_manifest(file.path(od, "run_manifest.json"), cfg, inputs = ins, outputs = outs,
                     extra = list(n_samples = ncol(beta), n_cpgs = nrow(beta), probe_filters = filt))
@@ -306,5 +306,5 @@ qc_report <- function(cfg, se, sq, fsum, figs, path) {
     list(heading = "Normalised data", plots = figs[intersect(c("density", "pca"), names(figs))]),
     list(heading = "Estimated covariates", plots = figs[intersect("cells", names(figs))],
          html = "<p>Cell proportions (blood: EpiDISH 7-cell reference; brain: HiBED) and a methylation smoking score are added to the sample table for adjustment.</p>"))
-  mf_html_report(path, paste("methylflow QC report:", cfg$project), secs)
+  mf_html_report(path, paste("methena QC report:", cfg$project), secs)
 }

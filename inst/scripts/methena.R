@@ -1,11 +1,11 @@
 #!/usr/bin/env Rscript
-# methylflow command-line interface
-#   Rscript methylflow.R preprocess --config config.yaml
-#   Rscript methylflow.R analyze    --config config.yaml
-#   Rscript methylflow.R all        --config config.yaml
-#   Rscript methylflow.R shiny      --results results/analysis [--port 3838]
-#   Rscript methylflow.R check      --config config.yaml      (validate config + inputs only)
-#   Rscript methylflow.R geo-sheet  --series GSE..._series_matrix.txt.gz --out samples.tsv
+# methena command-line interface
+#   Rscript methena.R preprocess --config config.yaml
+#   Rscript methena.R analyze    --config config.yaml
+#   Rscript methena.R all        --config config.yaml
+#   Rscript methena.R shiny      --results results/analysis [--port 3838]
+#   Rscript methena.R check      --config config.yaml      (validate config + inputs only)
+#   Rscript methena.R geo-sheet  --series GSE..._series_matrix.txt.gz --out samples.tsv
 suppressPackageStartupMessages({
   if (!requireNamespace("optparse", quietly = TRUE)) stop("Package 'optparse' missing: run install_dependencies.R")
   library(optparse)
@@ -19,11 +19,11 @@ opts <- parse_args(OptionParser(option_list = list(
   make_option("--out", type = "character"), make_option("--no-browser", action = "store_true", default = FALSE))),
   args = args[-1])
 if (cmd %in% c("help", "-h", "--help")) { cat(readLines(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE)))[2:8], sep = "\n"); quit(status = 0) }
-suppressPackageStartupMessages(library(methylflow))
+suppressPackageStartupMessages(library(methena))
 `%||%` <- function(a, b) if (is.null(a)) b else a
-# set METHYLFLOW_DEBUG=1 to print the call stack on errors
+# set METHENA_DEBUG=1 to print the call stack on errors
 run <- function(expr) tryCatch(withCallingHandlers(expr,
-  error = function(e) if (identical(Sys.getenv("METHYLFLOW_DEBUG"), "1")) { message("Call stack:"); print(utils::tail(sys.calls(), 12)) }),
+  error = function(e) if (identical(Sys.getenv("METHENA_DEBUG"), "1")) { message("Call stack:"); print(utils::tail(sys.calls(), 12)) }),
   error = function(e) { message("\nERROR: ", conditionMessage(e)); quit(status = 1) })
 need_cfg <- function() { if (is.null(opts$config)) { message("ERROR: --config is required"); quit(status = 2) }; run(mf_read_config(opts$config)) }
 switch(cmd,
@@ -34,10 +34,10 @@ switch(cmd,
   all = { cfg <- need_cfg(); run(mf_preprocess(cfg)); run(mf_analyze(cfg)) },
   shiny = { if (is.null(opts$results)) { message("ERROR: --results <analysis folder> is required"); quit(status = 2) }
             run(mf_shiny(opts$results, port = opts$port, launch.browser = !isTRUE(opts$`no-browser`))) },
-  demo = { out <- opts$out %||% "methylflow_demo"; dir.create(out, showWarnings = FALSE, recursive = TRUE); out <- normalizePath(out)
+  demo = { out <- opts$out %||% "methena_demo"; dir.create(out, showWarnings = FALSE, recursive = TRUE); out <- normalizePath(out)
            message("Simulating a small case-control 450K dataset in ", out)
            sim <- run(mf_simulate(file.path(out, "data"), "intensity", n_per_group = 15, n_cpg = 20000, n_dmp = 200))
-           cfg <- list(project = "methylflow_demo", output_dir = file.path(out, "results"), seed = 1L,
+           cfg <- list(project = "methena_demo", output_dir = file.path(out, "results"), seed = 1L,
                        input = list(type = "intensity", sample_sheet = sim$sample_sheet, sample_id_col = "sample_id", data_id_col = "data_id",
                                     meth_file = sim$meth_file, unmeth_file = sim$unmeth_file, detp_file = sim$detp_file, tissue = "other"),
                        phenotype = list(group_col = "group", control_level = "control", case_level = "case", age_col = "age", sex_col = "sex"),

@@ -7,7 +7,7 @@ run_once <- function(out, norm = "quantile", extra = list()) {
   cfgf <- write_cfg(sim_dir, sim_cfg(sim, out, norm = norm, extra = extra))
   cfg <- mf_read_config(cfgf)
   suppressMessages({ mf_preprocess(cfg); r <- mf_analyze(cfg) })
-  list(cfg = cfg, r = r, se = readRDS(file.path(out, "preprocess", "methylflow_dataset.rds")))
+  list(cfg = cfg, r = r, se = readRDS(file.path(out, "preprocess", "methena_dataset.rds")))
 }
 res1 <- run_once(file.path(sim_dir, "out1"))
 

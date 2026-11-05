@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: "If you use methylflow, please cite it as below and cite the methods it wraps (see README, section 12)."
-title: "methylflow: a reproducible DNA-methylation pipeline from raw data to biological interpretation"
-version: 1.0.0
+message: "If you use methena, please cite it as below and cite the methods it wraps (see README, section 12)."
+title: "methena: a reproducible DNA-methylation pipeline from raw data to biological interpretation"
+version: 1.1.0
 license: MIT
 authors:
-  - name: "methylflow authors"
-repository-code: "https://github.com/ameya225/methylflow"
+  - name: "methena authors"
+repository-code: "https://github.com/ameya225/methena"

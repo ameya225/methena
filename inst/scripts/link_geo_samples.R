@@ -3,7 +3,7 @@
 # Usage: Rscript link_geo_samples.R <series_matrix.txt.gz> <meth.csv.gz> <unmeth.csv.gz> <out_sample_sheet.tsv>
 a <- commandArgs(TRUE)
 if (length(a) != 4) stop("Usage: link_geo_samples.R series_matrix meth_file unmeth_file out.tsv")
-suppressPackageStartupMessages(library(methylflow))
+suppressPackageStartupMessages(library(methena))
 lk <- mf_geo_link_by_profile(a[1], a[2], a[3])
 ph <- mf_read_geo_pheno(a[1])
 ss <- merge(ph, lk, by = "geo_accession")

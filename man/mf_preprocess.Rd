@@ -13,6 +13,6 @@ mf_preprocess(cfg)
 the SummarizedExperiment (invisibly)
 }
 \description{
-Writes to `<output_dir>/preprocess/`: methylflow_dataset.rds (SummarizedExperiment),
+Writes to `<output_dir>/preprocess/`: methena_dataset.rds (SummarizedExperiment),
 sample_qc.tsv, probe_filter_summary.tsv, qc_report.html, figures/, run_manifest.json, log.
 }

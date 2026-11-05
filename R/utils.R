@@ -73,7 +73,7 @@ need_pkg <- function(pkg, why = NULL) {
 mf_default_config <- function() {
   list(
     project = "methylation_study",
-    output_dir = "methylflow_results",
+    output_dir = "methena_results",
     seed = 20240913L,
     threads = 1L,
     input = list(type = NULL, array = "auto", genome = "hg19",
@@ -195,7 +195,7 @@ mf_write_manifest <- function(path, cfg, inputs = character(), outputs = charact
   vers <- vapply(sort(unique(pk)), function(p) as.character(utils::packageVersion(p)), "")
   cfg_clean <- cfg; cfg_clean$config_dir <- NULL
   man <- list(
-    tool = "methylflow", version = as.character(utils::packageVersion("methylflow")),
+    tool = "methena", version = as.character(utils::packageVersion("methena")),
     started = .mf_env$start_time %||% NA, finished = format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z"),
     R = R.version.string, platform = R.version$platform,
     parameters = cfg_clean,

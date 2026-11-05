@@ -2,13 +2,13 @@
 % Please edit documentation in R/dm.R
 \name{mf_load_dataset}
 \alias{mf_load_dataset}
-\title{Load a methylflow dataset (RDS written by [mf_preprocess])}
+\title{Load a methena dataset (RDS written by [mf_preprocess])}
 \usage{
 mf_load_dataset(path)
 }
 \arguments{
-\item{path}{path to methylflow_dataset.rds}
+\item{path}{path to methena_dataset.rds}
 }
 \description{
-Load a methylflow dataset (RDS written by [mf_preprocess])
+Load a methena dataset (RDS written by [mf_preprocess])
 }

@@ -1,3 +1,3 @@
 library(testthat)
-library(methylflow)
-test_check("methylflow")
+library(methena)
+test_check("methena")

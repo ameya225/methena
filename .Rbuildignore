@@ -3,7 +3,7 @@
 ^configs$
 ^example_data$
 ^docs$
-^run_methylflow\.sh$
+^run_methena\.sh$
 ^README\.md$
 ^CITATION\.cff$
 ^LICENSE\.md$

@@ -1,11 +1,11 @@
-#' Load a methylflow dataset (RDS written by [mf_preprocess])
-#' @param path path to methylflow_dataset.rds
+#' Load a methena dataset (RDS written by [mf_preprocess])
+#' @param path path to methena_dataset.rds
 #' @export
 mf_load_dataset <- function(path) {
   if (!file.exists(path)) mf_stop("Dataset not found: ", path, ". Run the preprocessing step first.")
   se <- readRDS(path)
   if (!methods::is(se, "SummarizedExperiment") || !"beta" %in% SummarizedExperiment::assayNames(se))
-    mf_stop(path, " is not a methylflow dataset")
+    mf_stop(path, " is not a methena dataset")
   se
 }
 

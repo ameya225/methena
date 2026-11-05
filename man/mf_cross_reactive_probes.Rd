@@ -2,10 +2,10 @@
 % Please edit documentation in R/preprocess.R
 \name{mf_cross_reactive_probes}
 \alias{mf_cross_reactive_probes}
-\title{Published cross-reactive probe IDs bundled with methylflow (Chen 2013; McCartney 2016; Pidsley 2016)}
+\title{Published cross-reactive probe IDs bundled with methena (Chen 2013; McCartney 2016; Pidsley 2016)}
 \usage{
 mf_cross_reactive_probes()
 }
 \description{
-Published cross-reactive probe IDs bundled with methylflow (Chen 2013; McCartney 2016; Pidsley 2016)
+Published cross-reactive probe IDs bundled with methena (Chen 2013; McCartney 2016; Pidsley 2016)
 }

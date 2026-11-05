@@ -16,6 +16,6 @@ mf_shiny <- function(results_dir, port = 3838, launch.browser = interactive()) {
 #' @export
 mf_shiny_app <- function(bundle) {
   env <- new.env()
-  sys.source(system.file("shiny", "app_core.R", package = "methylflow"), envir = env)
+  sys.source(system.file("shiny", "app_core.R", package = "methena"), envir = env)
   env$build_app(bundle)
 }

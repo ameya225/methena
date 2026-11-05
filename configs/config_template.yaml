@@ -1,6 +1,6 @@
 # ============================================================================
-# methylflow configuration template -- copy this file, edit the values marked
-# EDIT, and run:   ./run_methylflow.sh all my_config.yaml
+# methena configuration template -- copy this file, edit the values marked
+# EDIT, and run:   ./run_methena.sh all my_config.yaml
 # Relative paths are resolved from the folder that contains this file.
 # ============================================================================
 project: my_methylation_study          # EDIT: short name used in reports
